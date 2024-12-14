@@ -7,14 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import playground.leones.leonesarc.dto.ServiceInfo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
 public class ServiceControl {
 
-    Map<ServiceInfo, Boolean> services = new HashMap<>();
+    ConcurrentHashMap<ServiceInfo, Boolean> services = new ConcurrentHashMap<>();
 
     private String getClientServerIp(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-Forwarded-For");
@@ -36,6 +35,8 @@ public class ServiceControl {
 
         ServiceInfo serviceInfo = new ServiceInfo(clientIp, clientPort);
         services.put(serviceInfo, true);
+
+        log.debug(services.toString());
 
         return ResponseEntity.noContent().build();
     }
