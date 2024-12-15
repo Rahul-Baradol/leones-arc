@@ -24,6 +24,9 @@
   "name":"[Ljava.lang.String;"
 },
 {
+  "name":"[Ljava.lang.annotation.Annotation;"
+},
+{
   "name":"[Lorg.springframework.core.annotation.AnnotationAttributes;"
 },
 {
@@ -105,7 +108,7 @@
   "name":"com.fasterxml.jackson.core.ObjectCodec",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"getJsonFactory","parameterTypes":[] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.TypeReference"] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","java.lang.Class"] }]
+  "methods":[{"name":"getJsonFactory","parameterTypes":[] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.ResolvedType"] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.TypeReference"] }]
 },
 {
   "name":"com.fasterxml.jackson.core.TreeCodec",
@@ -406,6 +409,14 @@
   "methods":[{"name":"defineClass","parameterTypes":["java.lang.String","byte[]","int","int","java.security.ProtectionDomain"] }]
 },
 {
+  "name":"java.lang.Cloneable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Comparable",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"java.lang.Iterable",
   "queryAllPublicMethods":true
 },
@@ -539,6 +550,12 @@
   "name":"java.util.ArrayList"
 },
 {
+  "name":"java.util.Date",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
   "name":"java.util.Enumeration"
 },
 {
@@ -575,10 +592,6 @@
 {
   "name":"java.util.concurrent.atomic.Striped64",
   "fields":[{"name":"base"}, {"name":"cellsBusy"}]
-},
-{
-  "name":"java.util.concurrent.atomic.Striped64$Cell",
-  "fields":[{"name":"value"}]
 },
 {
   "name":"java.util.logging.LogManager"
@@ -1726,7 +1739,7 @@
   "name":"org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"close","parameterTypes":[] }, {"name":"shutdown","parameterTypes":[] }]
+  "methods":[{"name":"close","parameterTypes":[] }, {"name":"error","parameterTypes":["jakarta.servlet.http.HttpServletRequest"] }, {"name":"shutdown","parameterTypes":[] }]
 },
 {
   "name":"org.springframework.boot.autoconfigure.web.servlet.error.DefaultErrorViewResolver",
@@ -2739,6 +2752,10 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"org.springframework.web.bind.annotation.RequestBody",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"org.springframework.web.bind.annotation.RequestMapping",
   "queryAllDeclaredMethods":true
 },
@@ -3138,14 +3155,14 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getHealth","parameterTypes":[] }]
 },
 {
   "name":"playground.leones.leonesarc.controller.ServiceControl",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"serviceCheck","parameterTypes":["jakarta.servlet.http.HttpServletRequest"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"forwardRequest","parameterTypes":["jakarta.servlet.http.HttpServletRequest","java.lang.String"] }, {"name":"serviceCheck","parameterTypes":["jakarta.servlet.http.HttpServletRequest"] }]
 },
 {
   "name":"reactor.core.publisher.Flux"
