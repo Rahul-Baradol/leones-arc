@@ -1,0 +1,3 @@
+[submodule "leones-arc-node"]
+	path = leones-arc-node
+	url = https://github.com/Rahul-Baradol/leones-arc-node.git
