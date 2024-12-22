@@ -2,20 +2,21 @@ package playground.leones.leonesarc.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import playground.leones.leonesarc.dto.ServiceInfo;
 import playground.leones.leonesarc.util.ServiceSelector;
 
 import java.time.Instant;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -59,8 +60,6 @@ public class ServiceControl {
         ServiceInfo serviceInfo = new ServiceInfo(clientIp, clientPort);
         services.put(serviceInfo, Instant.now());
 
-        log.debug(services.toString());
-
         return ResponseEntity.noContent().build();
     }
 
@@ -68,7 +67,7 @@ public class ServiceControl {
     public ResponseEntity<?> forwardRequest(HttpServletRequest request,
                                             @RequestBody(required = false) String body) {
         try {
-            Optional<ServiceInfo> service = ServiceSelector.randomService(services);
+            Optional<ServiceInfo> service = ServiceSelector.roundRobin(services);
             if (service.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
             }
@@ -82,14 +81,18 @@ public class ServiceControl {
             HttpMethod method = HttpMethod.valueOf(request.getMethod().toUpperCase());
             HttpHeaders headers = extractHeaders(request);
 
-            org.springframework.http.HttpEntity<String> entity = new org.springframework.http.HttpEntity<>(body, headers);
+            HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> response = restTemplate.exchange(targetUrl, method, entity, String.class);
 
             return ResponseEntity.status(response.getStatusCode()).headers(response.getHeaders()).body(response.getBody());
+        } catch (HttpClientErrorException httpClientErrorException) {
+            return new ResponseEntity<>(httpClientErrorException.getResponseBodyAsString(), httpClientErrorException.getStatusCode());
+        } catch (HttpServerErrorException httpServerErrorException) {
+            return new ResponseEntity<>(httpServerErrorException.getMessage(), httpServerErrorException.getStatusCode());
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.error(e.getMessage());
             return ResponseEntity.status(500).body("Error forwarding request: " + e.getMessage());
         }
     }

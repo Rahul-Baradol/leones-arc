@@ -5,6 +5,8 @@
   }, {
     "pattern":"\\QMETA-INF/resources/index.html\\E"
   }, {
+    "pattern":"\\QMETA-INF/resources/requestCount\\E"
+  }, {
     "pattern":"\\QMETA-INF/services/ch.qos.logback.classic.spi.Configurator\\E"
   }, {
     "pattern":"\\QMETA-INF/services/jakarta.validation.spi.ValidationProvider\\E"
@@ -385,11 +387,17 @@
   }, {
     "pattern":"\\Qpublic/index.html\\E"
   }, {
+    "pattern":"\\Qpublic/requestCount\\E"
+  }, {
     "pattern":"\\Qresources/index.html\\E"
+  }, {
+    "pattern":"\\Qresources/requestCount\\E"
   }, {
     "pattern":"\\Qspring.properties\\E"
   }, {
     "pattern":"\\Qstatic/index.html\\E"
+  }, {
+    "pattern":"\\Qstatic/requestCount\\E"
   }]},
   "bundles":[{
     "name":"jakarta.servlet.LocalStrings",
