@@ -15,8 +15,6 @@ import playground.leones.leonesarc.util.ServiceSelector;
 
 import java.time.Instant;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -59,6 +57,7 @@ public class ServiceControl {
 
         ServiceInfo serviceInfo = new ServiceInfo(clientIp, clientPort);
         services.put(serviceInfo, Instant.now());
+        log.debug(serviceInfo.toString());
 
         return ResponseEntity.noContent().build();
     }
