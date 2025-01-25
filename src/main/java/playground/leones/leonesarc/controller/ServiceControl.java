@@ -2,6 +2,7 @@ package playground.leones.leonesarc.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import playground.leones.leonesarc.dto.ServiceInfo;
-import playground.leones.leonesarc.util.ServiceSelector;
+import playground.leones.leonesarc.service.ServiceSelectorService;
 
 import java.time.Instant;
 import java.util.Enumeration;
@@ -23,6 +24,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ServiceControl {
 
     ConcurrentHashMap<ServiceInfo, Instant> services = new ConcurrentHashMap<>();
+
+    private final ServiceSelectorService serviceSelectorService;
+
+    @Autowired
+    public ServiceControl(ServiceSelectorService serviceSelectorService) {
+        this.serviceSelectorService = serviceSelectorService;
+    }
 
     private String getClientServerIp(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-Forwarded-For");
@@ -66,7 +74,9 @@ public class ServiceControl {
     public ResponseEntity<?> forwardRequest(HttpServletRequest request,
                                             @RequestBody(required = false) String body) {
         try {
-            Optional<ServiceInfo> service = ServiceSelector.roundRobin(services);
+            Optional<ServiceInfo> service = serviceSelectorService.select(services);
+            log.debug("Selecting {}", service);
+
             if (service.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
             }

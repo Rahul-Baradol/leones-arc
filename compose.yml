@@ -2,11 +2,15 @@ version: '3.0'
 
 services:
   leone:
-    image: rahulbaradol/leones-arc
+    build:
+      context: .
+      dockerfile: jvm.Dockerfile
     ports:
       - "8080:8080"
     container_name: leone
     restart: always
+    environment:
+      serviceSelectionAlgorithm: random
     networks:
       - mynetwork
 

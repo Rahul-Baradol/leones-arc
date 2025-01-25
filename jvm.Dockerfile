@@ -5,7 +5,7 @@ FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 
 # Copy the application JAR file into the container
-COPY build/libs/leones-arc-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/leones-arc-1.0.0.jar app.jar
 
 # Expose the port your Spring Boot app runs on (default is 8080)
 EXPOSE 8080
